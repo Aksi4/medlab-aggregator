@@ -1,0 +1,149 @@
+.rounded-image {
+  border-radius: 6%;
+  width: 100%;
+  opacity: 0.9;
+}
+
+
+.flash-messages {
+    display: flex;
+    flex-direction: column-reverse;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+    z-index: 9999;
+}
+
+.alert {
+    margin-bottom: 10px;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.full-width-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 21, 16, 0.5);
+    z-index: 2;
+}
+.main-content {
+    position: relative;
+    z-index: 3;
+    color: white;
+}
+.text-shadow {
+    text-shadow: 1px 5px 5px #2c2c2c;
+}
+.text-white1 {
+    color: #cecece;
+}
+.navbar {
+    background-color: rgba(75, 72, 69, 0.3);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.bg-custom {
+    background-color: #e5e3df;
+}
+
+.scale-zero {
+    transform: scale(0);
+}
+
+.break-top {
+    display: block;
+    margin-bottom: 8em;
+}
+
+#map {
+    height: 400px;
+}
+
+
+
+.lab-services-list {
+    padding-left: 0;
+}
+
+.lab-service-item {
+    background-color: rgba(209, 211, 217, 0.6);
+    border: 0px solid #ddd;
+
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lab-service-item1 {
+    background-color: rgba(204, 206, 211, 0.6);
+
+
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lab-service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.button-hover{
+
+}
+
+.button-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+}
+
+.retreat{
+    margin-top: 5.3rem;;
+}
+
+.bg-custom-map {
+    background-color: rgb(35, 35, 35);
+}
+
+#loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid #e5e3df;
+    border-top: 4px solid #db8834;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(350deg); }
+}
+
+
+#map {
+    display: none;
+}
+
+#footer-margin-top {
+    margin-top: 800px;
+}

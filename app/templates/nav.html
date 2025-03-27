@@ -1,0 +1,24 @@
+
+{% set menu = {"Головні послуги": url_for("sort_bp.general_services"), "Всі послуги": url_for("sort_bp.all_services"),
+"Лабораторії поблизу": url_for("geo_bp.map")} %}
+
+
+
+
+<nav class="navbar navbar-expand-lg fixed-top {% if request.endpoint == 'main' %}navbar-transparent{% else %}bg-primary{% endif %}" data-bs-theme="dark" id="navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand ms-3"  href="/main">VivaLabs</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        {% for name, url in menu.items() %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url }}">{{ name | upper }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>

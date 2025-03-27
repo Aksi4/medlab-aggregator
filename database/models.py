@@ -3,6 +3,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from geoalchemy2 import Geometry
 
 Base = declarative_base()
 
@@ -27,6 +28,7 @@ class Lab(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     lab_name = Column(String(255), unique=True, nullable=False)
+
 
 # таблиця послуг лабораторій
 class LabService(Base):

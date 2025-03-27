@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Список послуг
+{% endblock %}
+
+<head>
+    <script src="{{ url_for('static', filename='js/script2.js') }}"></script>
+</head>
+
+{% block body_class %}bg-custom-map{% endblock %}
+
+{% set no_break_top = True %}
+{% if not no_break_top %}
+    <div class="break-top"></div>
+{% endif %}
+
+{% block content %}
+
+<div class="container-fluid retreat">
+
+    <div class="row">
+
+        <div class="col-md-4 text-light mb-5">
+            <div class="container">
+            <h3 class="text-light mt-4 mb-4">Сортування</h3>
+            <form method="GET" action="{{ url_for('sort_bp.general_services') }}">
+
+                <div class="mb-3">
+                    <label for="search" class="form-label">Пошук за назвою</label>
+                    <input type="text" id="search" name="search" class="form-control" value="{{ search or '' }}">
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Категорія</label>
+                    <select id="category" name="category" class="form-select">
+                        <option value="">Виберіть категорію</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id == selected_category_id %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="min_price" class="form-label">Мінімальна ціна</label>
+                    <input type="number" id="min_price" name="min_price" class="form-control" value="{{ min_price or '' }}" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="max_price" class="form-label">Максимальна ціна</label>
+                    <input type="number" id="max_price" name="max_price" class="form-control" value="{{ max_price or '' }}" min="0">
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="sort_by" class="form-label">Сортувати за</label>
+                    <select id="sort_by" name="sort_by" class="form-select">
+                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Назвою</option>
+                        <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Ціною</option>
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="sort_order" class="form-label">Порядок сортування</label>
+                    <select id="sort_order" name="sort_order" class="form-select">
+                        <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>За зростанням</option>
+                        <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>За спадаючим</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-secondary button-hover">Відсортувати</button>
+            </form>
+            </div>
+        </div>
+
+        <!-- блок для виведення еталонних послуг -->
+        {% if has_general_services %}
+        <div class="col-md-8 bg-custom mb-5">
+            <div class="container">
+            <h2 class="mb-4 mt-4">Еталонні послуги</h2>
+            <div class="list-group">
+                {% for service in services %}
+                    <div class="list-group-item mb-3 mt-2 lab-service-item">
+                        <h4 class="mb-1 service-title" data-service-id="{{ service.id }}">
+                            {{ service.name }}
+                        </h4>
+
+                        <!-- лабораторні послуги для еталонної послуги -->
+                        <div class="lab-services-list mt-2 {% if min_price or max_price %}d-block{% else %}d-none{% endif %}" id="service-{{ service.id }}">
+                            {% for lab_service in service.lab_services %}
+                                <div class="lab-service-item1 mb-3 p-3 d-flex justify-content-between align-items-center">
+                                    <div class="lab-service-info">
+                                        <h5><strong>{{ lab_service.original_name }}</strong></h5><br>
+                                        <p><strong>Ціна:</strong> {{ lab_service.price }} грн</p>
+                                        <p><strong>Час виконання:</strong> {{ lab_service.execution_time }}</p>
+                                        <p><strong>Лабораторія:</strong> {{ lab_service.lab.lab_name }}</p>
+                                    </div>
+                                    <a href="{{ lab_service.url }}" class="btn btn-sm btn-primary button-hover" target="_blank">Перейти</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+        {% else %}
+        <!-- блок для виведення лабораторних послуг -->
+        <div class="col-md-8 bg-custom mb-5">
+            <div class="container">
+            <h2 class="mb-4 mt-4">Лабораторні послуги</h2>
+            <div class="list-group">
+                {% for lab_service in services %}
+                    <div class="list-group-item mb-3 mt-2 lab-service-item">
+                        <h4 class="mb-1 service-title" data-service-id="{{ lab_service.id }}">
+                            {{ lab_service.original_name }}
+                        </h4>
+                        <div class="lab-service-info">
+                            <p><strong>Ціна:</strong> {{ lab_service.price }} грн</p>
+                            <p><strong>Час виконання:</strong> {{ lab_service.execution_time }}</p>
+                            <p><strong>Лабораторія:</strong> {{ lab_service.lab.lab_name }}</p>
+                        </div>
+                        <a href="{{ lab_service.url }}" class="btn btn-sm btn-primary button-hover" target="_blank">Перейти</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% block footer %}
+
+{% include "footer.html" %}
+{% endblock %}
+{% endblock %}

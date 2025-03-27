@@ -17,8 +17,6 @@ def create_db():
     Base.metadata.create_all(engine)
     print("database created!")
 
-#при подальшій розробці відключити елемент скидання та створення і підключити оновлення бази
-
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

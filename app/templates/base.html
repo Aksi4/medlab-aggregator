@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/banner.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/servives.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <title>{% block title %} CRHub {% endblock %}</title>
+</head>
+<body class="{% block body_class %}bg-custom{% endblock %}">
+{% include "nav.html" %}
+<div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'success' %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {% elif category == 'error' %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {% else %}
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                {% endif %}
+                <div class="flash-messages-list">
+                    {{ message }}
+                </div>
+                <button type="button" id="close-button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+{% if not no_break_top %}
+    <div class="break-top"></div>
+    {%endif%}
+
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+    <h3>The canvas represents the code, and the artist skillfully paints solutions,<br>  one line at a time.</h3>
+</div>
+{% endblock %}
+        
+</body>
+</html>

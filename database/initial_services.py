@@ -12,10 +12,10 @@ def process_lab_services(db: Session):
 
         # Перевірка винятків
         if "Пакет" in service_name:
-            category = db.query(Category).filter_by(name="Пакети досліджень").first()
+            category = db.query(Category).filter_by(name="Пакетні дослідження").first()
 
             if not category:
-                category = Category(name="Пакети досліджень")
+                category = Category(name="Пакетні дослідження")
                 db.add(category)
                 db.commit()
 
