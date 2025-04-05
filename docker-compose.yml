@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fr132456
+      POSTGRES_DB: medlabs_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  web:
+    build: .
+    command: flask run --host=0.0.0.0 --port=5000
+    depends_on:
+      - db
+    environment:
+      FLASK_APP: run.py
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://postgres:fr132456@db/medlabs_db?client_encoding=utf8
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+
+  celery-worker:
+    build: .
+    command: celery -A etl_tasks.celery worker --loglevel=info
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - .:/code
+    environment:
+      DATABASE_URL: postgresql://postgres:fr132456@db/medlabs_db?client_encoding=utf8
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    restart: unless-stopped
+
+  celery-beat:
+    build: .
+    command: celery -A etl_tasks.celery beat --loglevel=info --scheduler=redbeat.RedBeatScheduler
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - .:/code
+    environment:
+      DATABASE_URL: postgresql://postgres:fr132456@db/medlabs_db?client_encoding=utf8
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      REDBEAT_REDIS_URL: redis://redis:6379/0
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:

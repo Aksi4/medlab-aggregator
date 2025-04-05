@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fuzzywuzzy import process
-from collections import defaultdict
+
 
 from database.models import Category, GeneralService, LabService, UnmatchedService
 

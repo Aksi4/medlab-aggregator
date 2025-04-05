@@ -1,10 +1,9 @@
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Base
-from config import DATABASE_URL
+from config import Config
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(Config.SQLALCHEMY_DATABASE_URI, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -14,4 +13,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
